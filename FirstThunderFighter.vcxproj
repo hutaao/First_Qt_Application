@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="EnemyUnit.cpp" />
     <ClCompile Include="GameWidget.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -105,6 +106,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="EnemyUnit.h" />
     <ClInclude Include="Gametypes.h" />
     <QtMoc Include="GameWidget.h" />
