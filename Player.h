@@ -21,7 +21,7 @@ class Player {
 public:
     Player();
     void reset(float startX, float startY); 
-    void update(const QSet<int>& keys, int w, int h, int frameCnt);  
+    void update(const QSet<int>& keys, int w, int h, int frameCnt);  //帧计数
     void draw(QPainter& p) const;   
 
     void setBulletAdder(std::function<void(const Bullet&)> adder);  //子弹添加回调

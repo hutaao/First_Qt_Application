@@ -60,7 +60,21 @@ void Player::tryShoot() {
     }
 }
 
-void Player::useSkill(int id) {}    //预留
+void Player::useSkill(int id) {     
+    if (id == 1 && m_bomb.cd <= 0 && m_bomb.active == 0) {  //防止覆盖使用清屏技能
+        m_bomb.cd = m_bomb.maxCD;
+    }
+    else if (id == 2 && m_shield.cd <= 0 && m_shield.active == 0) {
+        m_shield.cd = m_shield.maxCD;
+        m_shield.active = 180;
+        m_invTimer = 180;
+    }
+    else if (id == 3 && m_fire.cd <= 0 && m_fire.active == 0) {
+        m_fire.cd = m_fire.maxCD;
+        m_fire.active = 300;
+        m_dmg = 2;
+    }
+}
 
 void Player::updateSkills() {
     if (m_bomb.cd > 0)  m_bomb.cd--;
@@ -77,9 +91,22 @@ void Player::updateSkills() {
     }
 }
 
-void Player::hit() {}       //预留
+void Player::hit() {            
+    if (m_invTimer > 0) return;
+    m_hp--;
+    m_invTimer = 60;
+}
 
-void Player::getPickup(int type) {}       //预留
+void Player::getPickup(int type) {          
+    switch (type) {
+    case 0: m_hp = qMin(m_maxHp, m_hp + 3); 
+        break;
+    case 1: m_invTimer = qMax(m_invTimer, 120); 
+        break;
+    case 2: m_fire.active = 300; m_dmg = 2; 
+        break;
+    }
+}
 
 void Player::draw(QPainter& p) const {
     bool visible = (m_invTimer <= 0) || ((m_invTimer / 4) % 2 == 0);

@@ -88,7 +88,7 @@ struct Particle {
     bool alive = true;
 };
 
-struct Skill {         
+struct Skill {         //1:清屏,2:护盾,3:火力增强
     int maxCD = 0;
     int cd = 0;
     int active = 0;     
