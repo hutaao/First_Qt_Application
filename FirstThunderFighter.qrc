@@ -1,0 +1,35 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/player.png</file>
+        <file>res/enemy_normal.png</file>
+        <file>res/enemy_elite1.png</file>
+        <file>res/enemy_elite2.png</file>
+        <file>res/boss_1.png</file>
+        <file>res/boss_2.png</file>
+        <file>res/bg.jpg</file>
+        <file>res/bg_menu.jpg</file>
+        <file>res/gamename.png</file>
+        <file>res/ui2.png</file>
+        <file>res/ui1.png</file>
+        <file>res/ui3.png</file>
+        <file>res/skill_fire.png</file>
+        <file>res/skill_bomb.png</file>
+        <file>res/skill_shield.png</file>
+        <file>res/bgm_boss.mp3</file>
+        <file>res/bgm_menu.mp3</file>
+        <file>res/bgm_battle.mp3</file>
+        <file>res/zidan1-1.png</file>
+        <file>res/3-1.png</file>
+        <file>res/3-2.png</file>
+        <file>res/3-3.png</file>
+        <file>res/3-4.png</file>
+        <file>res/feidan.png</file>
+        <file>res/4-1.png</file>
+        <file>res/4-2.png</file>
+        <file>res/4-3.png</file>
+        <file>res/4-4.png</file>
+        <file>res/zidan1.png</file>
+        <file>res/rage.mp3</file>
+        <file>res/R-C.jpg</file>
+    </qresource>
+</RCC>

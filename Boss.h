@@ -1,4 +1,4 @@
-ï»¿#ifndef BOSS_H
+#ifndef BOSS_H
 #define BOSS_H
 
 #include "GameTypes.h"
@@ -7,18 +7,60 @@
 
 class Boss {
     Enemy m_data;
-    std::function<void(const Bullet&)> m_addBullet;     //å­å¼¹å›è°ƒå®¹å™¨
+    QPixmap m_px1;
+    QPixmap m_px2;
+    float m_radius = 50;  // »ùÓÚÍ¼Æ¬³ß´ç¼ÆËãµÄÅö×²°ë¾¶
 
-    void s1(float px, float py);    //  æ‰‡å½¢æ‰©æ•£å¼¹+ç›´çº¿å¼¹+è¿½è¸ªå¼¹
-    void s2(float px, float py, int frameCnt);  //  æµ·èƒ†è†¨èƒ€å¼¹+è¿½è¸ªå¼¹
-    void s3(float px, float py);    //  æ»¡å±å°åœ†å¼¹+å›æ—‹é•–+åŠå¼§å½¢æ•£å¼¹
+    bool m_changing = false;   // ÊÇ·ñÕıÔÚÇĞ»»½×¶Î
+    int m_changeTimer = 0;     // ÇĞ»»µ¹¼ÆÊ±
+
+    int m_moveState = 1;       // Ëæ»úÓÎ×ß×´Ì¬£º0=ÒÆ¶¯ÖĞ, 1=µÈ´ıÖĞ
+    float m_moveDist = 0;      // ±¾´ÎÒÆ¶¯Ê£Óà¾àÀë(ÏñËØ)
+    int m_moveDir = 1;         // ÒÆ¶¯·½Ïò(-1×ó, +1ÓÒ)
+    int m_waitTimer = 0;
+    bool m_dying = false; 
+    int m_dyingTimer = 0; 
+    int m_urchinSeq = -1; 
+    int m_urchinDelay = 0;
+    int m_urchinRounds = 0;
+    bool m_trailOn = false; 
+    int m_trailTimer = 0; 
+    int m_trailFireTimer = 0;
+    bool m_dustOn = false;       // ·Û³¾µ¯Ä»Ä£Ê½
+    int m_dustTimer = 0;
+    int m_dustWaves = 0; 
+    bool m_urchinSweep = false;  // º£µ¨½Ç¶ÈÉ¨ÉäÄ£Ê½
+    float m_urchinSweepAng = 0; 
+    int m_urchinSweepDir = 1; 
+    int m_urchinSweepCnt = 0; 
+    int m_urchinSweepTimer = 0;  // É¨Éä·¢Éä¼ä¸ô¼ÆÊ±
+    int m_nextDust = 0;            // ·Û³¾µ¯ÀäÈ´¼ÆÊı£¨¡İ3²Å´¥·¢£©
+    float m_arrayRotAngle = 0;     // º£µ¨ÕóÁĞÕûÌåĞı×ª½Ç£¨»¡¶È£©
+    bool m_netOn = false;
+    int m_netTimer = 0; 
+    int m_netFireTimer = 0; 
+
+    std::function<void(const Bullet&)> m_addBullet;     //×Óµ¯»Øµ÷ÈİÆ÷
+    std::function<void(float, float)> m_onPhaseDrop;      //½×¶ÎÇĞ»»»Øµ÷£¨µôÂäµÀ¾ß£©
+
+    void s1(float px, float py); 
+    void s2(float px, float py, int frameCnt);
+    void s3(float px, float py);
 
     void fireCircle(float x, float y, int cnt, float spd, QColor c, float r);
     void fireFan(float x, float y, float tx, float ty, int cnt, float spread, float spd, QColor c, float r);
     void fireStraight(float x, float y, float vx, float vy, QColor c, float r);
     void fireSeeking(float x, float y, float vx, float vy, QColor c, float r);
-    void fireNeedle(float x, float y, float ang, float spd, float grow, QColor c, float r);
-    void fireBoomerang(float x, float y, float ang, float spd, QColor c, float r);
+    void fireUrchin(float x, float y, float vx, float vy);
+    void fireUrchinRow(int row);
+    void fireTrail(float x, float y, float vx, float vy);
+    void fireDust();
+    void fireCrossBurst();
+    void fireVortex();
+    void fireCage();
+    void fireNet();
+    void fireNetRows();
+    void fireBulletPair(float sx, float sy);
 
 public:
     Boss();
@@ -26,10 +68,15 @@ public:
     void update(float px, float py, int frameCnt);
     void draw(QPainter& p) const;
 
-    void setBulletAdder(std::function<void(const Bullet&)> adder);  // è®¾ç½®å­å¼¹å›è°ƒå‡½æ•°
+    void setBulletAdder(std::function<void(const Bullet&)> adder);  // ÉèÖÃ×Óµ¯»Øµ÷º¯Êı
+    void setPhaseDropCb(std::function<void(float, float)> cb);      // ½×¶ÎÇĞ»»µÀ¾ßµôÂä
+    void startDying();                   // ¿ªÊ¼ËÀÍöÉÁË¸
+    bool isDying() const;                // ÊÇ·ñÕıÔÚÉÁË¸
+    bool isDyingDone() const;            // ÉÁË¸ÊÇ·ñÍê³É
     Enemy& data() { return m_data; }
-    const Enemy& data() const { return m_data; }    //åªè¯»è¿”å›bossæ•°æ®
+    const Enemy& data() const { return m_data; }    //Ö»¶Á·µ»ØbossÊı¾İ
     bool isAlive() const { return m_data.alive; }
+    float radius() const { return m_radius; }
 };
 
 #endif
