@@ -74,7 +74,7 @@ FirstThunderFighter/
 ├── Background.h/.cpp        # 滚动背景
 ├── BgmManager.h/.cpp        # 音乐管理
 ├── res/                     # 资源文件（图片、音效、BGM）
-└── FirstThunderFighter.*    # VS 项目文件
+└──……
 ```
 
 ## 技术特性
